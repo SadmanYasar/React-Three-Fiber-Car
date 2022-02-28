@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ferrari 348 TB Low Poly
+* source:	https://sketchfab.com/3d-models/ferrari-348-tb-low-poly-54bb2829f76d4320b87bbcd667a28bd3
+* author:	Iron Minecart2 (https://sketchfab.com/iron_minecart2)
+
+Model License:
+* license type:	CC-BY-ND-4.0 (http://creativecommons.org/licenses/by-nd/4.0/)
+* requirements:	Author must be credited. Modified versions can not be distributed. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ferrari 348 TB Low Poly" (https://sketchfab.com/3d-models/ferrari-348-tb-low-poly-54bb2829f76d4320b87bbcd667a28bd3) by Iron Minecart2 (https://sketchfab.com/iron_minecart2) licensed under CC-BY-ND-4.0 (http://creativecommons.org/licenses/by-nd/4.0/)
