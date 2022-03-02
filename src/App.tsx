@@ -1,16 +1,16 @@
-import { Suspense, /* useEffect */useRef } from 'react'
+import { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import {
   MeshReflectorMaterial, 
   Environment, 
   Stage, 
-  /* OrbitControls, */
   PerspectiveCamera, 
 } from '@react-three/drei'
 import Ferrari from './components/Ferrari'
-import { folder, useControls } from 'leva'
 import React from 'react'
 import { CameraControls } from './components/camera-controls';
+import { folder, useControls } from 'leva'
+import { Vector3 } from 'three'
 
 const DEG45 = Math.PI / 4;
 
@@ -19,7 +19,7 @@ const Camera = () => {
     position: folder({
       posX: { value: 0, min: 0, max: 300, step: 1 },
       posY: { value: 1, min: 0, max: 300, step: 1 },
-      posZ: { value: 15, min: 0, max: 300, step: 1 },
+      posZ: { value: 5, min: 0, max: 300, step: 1 },
     }),
   })
 
@@ -34,26 +34,24 @@ const Camera = () => {
   )
 }
 
-/* const MoveToCar = (controlRef: CameraControls | null) => {
-  useEffect(() => {
-    controlRef?.moveTo
-  }, [])
-
-  return null
-} */
-
 const App = () => {
   const cameraControls = useRef<CameraControls | null>(null);
+  
   return (
     <>
-      <Canvas dpr={[1, 2]} shadows={true} mode="concurrent">
+      <Canvas dpr={[1, 2]} shadows={true} >
         <CameraControls ref={cameraControls} />
         <Camera />
         <color attach="background" args={['#101010']} />
         <fog attach="fog" args={['#101010', 10, 20]} />
         <Suspense fallback={null}>
           <Environment path="/assets/Textures" />
-          <Stage  adjustCamera={false} environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}>
+          <Stage 
+            adjustCamera={false} 
+            environment={null} 
+            intensity={1} 
+            contactShadow={false} 
+            shadowBias={-0.0015}>
             <Ferrari />
           </Stage>
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
@@ -71,12 +69,6 @@ const App = () => {
               metalness={0.5} />
           </mesh>
         </Suspense>
-        {/* <OrbitControls
-          makeDefault
-          enableDamping
-          enablePan={false}
-          maxPolarAngle={17 * Math.PI / 36}
-          /> */}
       </Canvas>
       <div style={{ position: 'absolute', top: '0' }}>
 				<button
@@ -94,6 +86,47 @@ const App = () => {
 					}}
 				>
 					reset
+				</button>
+        <button
+					type="button"
+					onClick={async () => {
+            //await cameraControls.current?.setPosition(0.25,0.7,0, true)
+            await cameraControls.current?.rotate(Math.PI, 0, true)
+          }}
+				>
+					Rotate 180
+				</button>
+        <button
+					type="button"
+					onClick={async () => {
+            //await cameraControls.current?.setLookAt(0.3, 0.6, -0.3, 0.3, 0.6, -0.3, true)
+            //await cameraControls.current?.setLookAt(0.3, 0.6, -0.3, 0.3, 0.6, -0.3, true)
+            await cameraControls.current?.setTarget(0.3, 0.6, -0.3, true)
+            await cameraControls.current?.setPosition(0.3, 0.6, -0.3, true)
+            await cameraControls.current?.rotateAzimuthTo(Math.PI, true)
+            //cameraControls.current?.setOrbitPoint(0, 0, 0)
+          }}
+				>
+					Move
+				</button>
+        <button
+					type="button"
+					onClick={() => {
+            console.log(cameraControls.current?.getPosition(new Vector3()))
+          }}
+				>
+					Get pos
+				</button>
+        <button
+					type="button"
+					onClick={async () => {
+            await cameraControls.current?.setTarget(0.3, 0.6, 0, true)
+            await cameraControls.current?.setPosition(1, 0.6, -0.1, true)
+            await cameraControls.current?.setPosition(0.3, 0.6, -0.1, true)
+            //await cameraControls.current?.setTarget(0.3, 0.6, 0, true)
+          }}
+				>
+					set
 				</button>
 			</div>
     </>

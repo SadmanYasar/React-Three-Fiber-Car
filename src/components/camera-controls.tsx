@@ -48,13 +48,18 @@ export const CameraControls = forwardRef<CameraControlsDefault, unknown>((_, ref
 	const cameraControls = useRef<CameraControlsDefault | null>(null);
 	const camera = useThree((state) => state.camera);
 	const renderer = useThree((state) => state.gl);
-	useFrame((_, delta) => cameraControls.current?.update(delta));
-	useEffect(() => () => cameraControls.current?.dispose(), []);
+	useFrame((_, delta) => {
+		cameraControls.current?.update(delta)
+	});
+	useEffect(() => {
+		return () => cameraControls.current?.dispose()
+	}, []);
 	return (
 		<cameraControlsDefault
 			ref={mergeRefs<CameraControlsDefault>(cameraControls, ref)}
 			args={[camera, renderer.domElement]}
-			maxPolarAngle={17 * Math.PI / 36}
+			//maxPolarAngle={17 * Math.PI / 36}
+			azimuthRotateSpeed={0.5}
 		/>
 	);
 });
