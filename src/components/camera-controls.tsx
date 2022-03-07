@@ -52,14 +52,19 @@ export const CameraControls = forwardRef<CameraControlsDefault, unknown>((_, ref
 		cameraControls.current?.update(delta)
 	});
 	useEffect(() => {
+		cameraControls.current?.setPosition(0, 1, 10)
+		.then(() => {
+			cameraControls.current?.setPosition(0, 1, 5, true)
+		})
 		return () => cameraControls.current?.dispose()
 	}, []);
 	return (
 		<cameraControlsDefault
 			ref={mergeRefs<CameraControlsDefault>(cameraControls, ref)}
 			args={[camera, renderer.domElement]}
-			//maxPolarAngle={17 * Math.PI / 36}
+			maxPolarAngle={17 * Math.PI / 36}
 			azimuthRotateSpeed={0.5}
+			polarRotateSpeed={0.5}
 		/>
 	);
 });

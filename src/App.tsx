@@ -9,27 +9,17 @@ import {
 import Ferrari from './components/Ferrari'
 import React from 'react'
 import { CameraControls } from './components/camera-controls';
-import { folder, useControls } from 'leva'
-import { Vector3 } from 'three'
-
-const DEG45 = Math.PI / 4;
+//import { Vector3 } from 'three'
 
 const Camera = () => {
-  const {posX ,posY, posZ} = useControls({
-    position: folder({
-      posX: { value: 0, min: 0, max: 300, step: 1 },
-      posY: { value: 1, min: 0, max: 300, step: 1 },
-      posZ: { value: 5, min: 0, max: 300, step: 1 },
-    }),
-  })
-
+  
   return(
     <PerspectiveCamera 
         makeDefault
         fov={45}
         near={0.1}
         far={100}
-        position={[posX, posY, posZ]}
+        position={[0, 1, 10]}
     />
   )
 }
@@ -40,8 +30,8 @@ const App = () => {
   return (
     <>
       <Canvas dpr={[1, 2]} shadows={true} >
-        <CameraControls ref={cameraControls} />
         <Camera />
+        <CameraControls ref={cameraControls} />
         <color attach="background" args={['#101010']} />
         <fog attach="fog" args={['#101010', 10, 20]} />
         <Suspense fallback={null}>
@@ -73,60 +63,40 @@ const App = () => {
       <div style={{ position: 'absolute', top: '0' }}>
 				<button
 					type="button"
-					onClick={() => {
-						cameraControls.current?.rotate(DEG45, 0, true);
+					onClick={async () => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            cameraControls!.current!.enabled = false
+            await cameraControls.current?.setPosition(1, 0.6, -0.1, true)
+            await cameraControls.current?.setPosition(0, 1, 5, true)
+            await cameraControls.current?.setTarget(0, 0, 0, true)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            cameraControls!.current!.enabled = true
 					}}
 				>
-					rotate theta 45deg
+					exit car
 				</button>
-				<button
-					type="button"
-					onClick={() => {
-						cameraControls.current?.reset(true);
-					}}
-				>
-					reset
-				</button>
-        <button
-					type="button"
-					onClick={async () => {
-            //await cameraControls.current?.setPosition(0.25,0.7,0, true)
-            await cameraControls.current?.rotate(Math.PI, 0, true)
-          }}
-				>
-					Rotate 180
-				</button>
-        <button
-					type="button"
-					onClick={async () => {
-            //await cameraControls.current?.setLookAt(0.3, 0.6, -0.3, 0.3, 0.6, -0.3, true)
-            //await cameraControls.current?.setLookAt(0.3, 0.6, -0.3, 0.3, 0.6, -0.3, true)
-            await cameraControls.current?.setTarget(0.3, 0.6, -0.3, true)
-            await cameraControls.current?.setPosition(0.3, 0.6, -0.3, true)
-            await cameraControls.current?.rotateAzimuthTo(Math.PI, true)
-            //cameraControls.current?.setOrbitPoint(0, 0, 0)
-          }}
-				>
-					Move
-				</button>
-        <button
+        {/* <button
 					type="button"
 					onClick={() => {
             console.log(cameraControls.current?.getPosition(new Vector3()))
+            console.log(cameraControls.current?.getTarget(new Vector3()))
           }}
 				>
 					Get pos
-				</button>
+				</button> */}
         <button
 					type="button"
 					onClick={async () => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            cameraControls!.current!.enabled = false
             await cameraControls.current?.setTarget(0.3, 0.6, 0, true)
             await cameraControls.current?.setPosition(1, 0.6, -0.1, true)
-            await cameraControls.current?.setPosition(0.3, 0.6, -0.1, true)
-            //await cameraControls.current?.setTarget(0.3, 0.6, 0, true)
+            await cameraControls.current?.setPosition(0.3, 0.6, -0.2, true)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            cameraControls!.current!.enabled = true
           }}
 				>
-					set
+					Go inside
 				</button>
 			</div>
     </>
