@@ -47,6 +47,7 @@ const App = () => {
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[170, 170]} />
             <MeshReflectorMaterial
+              mirror={0}
               blur={[300, 100]}
               resolution={2048}
               mixBlur={1}
